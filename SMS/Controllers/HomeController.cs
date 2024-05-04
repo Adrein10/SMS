@@ -24,7 +24,21 @@ namespace SMS.Controllers
             };
             return View(newdata);
         }
-
+        [HttpPost]
+        public IActionResult Index(CustomStudentReg reg)
+        {
+            var show = reg;
+            StudentReg student = new StudentReg()
+            {
+                StudentName = reg.CstudentReg.StudentName,
+                StudentEmail = reg.CstudentReg.StudentEmail,
+                Courseid = reg.CstudentReg.Courseid,
+                StartDate = reg.CstudentReg.StartDate
+            };
+            context.StudentRegs.Add(student);
+            context.SaveChanges();
+            return RedirectToAction();
+        }
         public IActionResult Privacy()
         {
             return View();
