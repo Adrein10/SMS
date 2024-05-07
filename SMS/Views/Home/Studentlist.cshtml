@@ -1,0 +1,42 @@
+﻿@model IEnumerable<SMS.Models.StudentReg>
+<div class="container mb-4">
+
+    <h1 class="text-center mb-4">Student List</h1>
+
+    <table class="table">
+        <thead>
+            <tr class="table-dark">
+                <th scope="col">#</th>
+                <th scope="col">Student Name</th>
+                <th scope="col">Student Email</th>
+                <th scope="col">Student Course</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <th scope="row">@Html.DisplayFor(modelitem => item.Courseid)</th>
+                    <td>@Html.DisplayFor(modelitem => item.StudentName)</td>
+                    <td>@Html.DisplayFor(modelitem => item.StudentEmail)</td>
+                    <td>@Html.DisplayFor(modelitem => item.Course.Coursename)</td>
+                    <td>
+
+                        <a class="btn btn-primary btn-sm" asp-route-id="@item.StudentId" asp-controller="Home" asp-action="Update">Update</a>
+                        <a class="btn btn-danger btn-sm" asp-route-id="@item.StudentId" asp-controller="Home" asp-action="Delete">Delete</a>
+
+
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+
+
+</div>

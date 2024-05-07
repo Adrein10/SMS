@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 using SMS.Models;
 using System.Diagnostics;
 
@@ -38,6 +40,50 @@ namespace SMS.Controllers
             context.StudentRegs.Add(student);
             context.SaveChanges();
             return RedirectToAction();
+        }
+        public IActionResult Studentlist()
+        {
+            var show = context.StudentRegs.Include(options => options.Course).ToList();
+            return View(show);
+        }
+        public IActionResult Delete(int id)
+        {
+            CustomStudentReg newdata = new CustomStudentReg
+            {
+                CstudentReg = context.StudentRegs.Find(id),
+                Courselist = context.Courses.ToList()
+            };
+            return View(newdata);
+        }
+        [HttpPost]
+        public IActionResult Delete(CustomStudentReg studentReg,int id)
+        {
+            context.StudentRegs.Remove(studentReg.CstudentReg);
+            context.SaveChanges();
+            return RedirectToAction("Studentlist");
+        }
+        public IActionResult Update(int id)
+        {
+            CustomStudentReg newdata = new CustomStudentReg
+            {
+                CstudentReg = context.StudentRegs.Find(id),
+                Courselist = context.Courses.ToList()
+            };
+            return View(newdata);
+        }
+        [HttpPost]
+        public IActionResult Update(CustomStudentReg studentReg, int id)
+        {
+            var update = new StudentReg()
+            {
+                StudentName = studentReg.CstudentReg.StudentName,
+                StudentEmail = studentReg.CstudentReg.StudentEmail,
+                Courseid = studentReg.CstudentReg.Courseid,
+                StartDate = studentReg.CstudentReg.StartDate
+            };
+            context.StudentRegs.Update(update);
+            context.SaveChanges();
+            return RedirectToAction("Studentlist");
         }
         public IActionResult Privacy()
         {
